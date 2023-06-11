@@ -32,7 +32,7 @@ class from_sql():
         self.connector = pg.connect(dbname= self.database, user="postgres", password = "Yankees27")
     
     def connect(self):
-        return pg.connect(dbname= self.database, user="postgres", password = "Yankees27")
+        return pg.connect(dbname= self.database, user="username", password = "your password")
     
     
     def query_to_df(self, table, columns=None):
