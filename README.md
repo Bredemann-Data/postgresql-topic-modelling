@@ -1,4 +1,6 @@
 # postgresql-topic-modelling
-A python script that accesses a data base that stores book data, performs topic modeling  based n book summaries and uploads the results back into the data base.
-This is a script that connects to a postgresql database, loads information from publihed books into a dataframe, perform topic modelling and uploads the invetigated topics into a database table,
-where book and topic can easily be matched by a join operation.
+This script is part of a 1-week project that I worked on during a Data Science qualification program.
+This python script accesses a postgresql database, loads information from publihed books into a pandas dataframe, perform topic modelling and uploads the assigned topics back into a postgreSQL table.
+Within the database, a view is created that shows the topic of each book by joining the topic table and the orignal table.
+The postgreSQL server is accessed by methods supplied by the psycopg2 library.
+Topic modelling is achieved by the Latent Dirichlet Allocation learner implemented into scikit learn.
