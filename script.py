@@ -16,14 +16,11 @@ from from_sql import from_sql
         
 #%% Daten laden
 
-books = from_sql(database = "enter database name here", 
-                 username = "enter your username here", 
-                 password = "enter your password here")
+books = from_sql()
 
 table = "book_data"
-columns= ["Tite", "ID", "description", "categories"]
 
-df = books.query_to_df(table= table, columns= columns)
+df = books.query_to_df(table, "true","Title", "ID", "description", "categories")
 df = df[df["description"].notna()]
 
 #%%

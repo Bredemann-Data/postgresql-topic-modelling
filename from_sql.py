@@ -14,25 +14,21 @@ import numpy as np
 #%% 
 
 class from_sql():
-    def __init__(self,database, username, password):
-        self.database = database
-        self.username = username
-        self.password = password
+    def __init__(self):
+        self.database = input("database: ")
+        self.user = input("username: ")
+        self.password = input("password: ")
     
     def connect(self):
-        return pg.connect(dbname= self.database, user= self.username, password = self.password)
+        return pg.connect(dbname= self.database, user= self.user, password = self.password)
 
 # Method that writes the output of an SQL query into a pd.DataFrame
-    def query_to_df(self, table, condition = 0, columns=None):
+    def query_to_df(self, table, condition, *columns):
         c_quote = ["\"" + c + "\"" for c in columns]
         c_string = ", ".join(c_quote)
         conn = self.connect()
         with conn.cursor() as curs:
-            if condition == 0:
-                curs.execute(f"""select {c_string} 
-                             FROM "{table}";""")
-            else:
-                curs.execute(f"""select {c_string} FROM "{table}" WHERE {condition};""")
+            curs.execute(f"""select {c_string} FROM "{table}" WHERE {condition};""")
             rows = curs.fetchall()
         conn.close()
         return pd.DataFrame(rows, columns=columns)
@@ -68,11 +64,18 @@ class from_sql():
         conn.close()
         
 
-    def create_table(self, table, column_dtype):
+    def create_table(self, table, **column_dtype):
+        """
+        table: name for table in database
+        **column_dtype:
+            variable name = name for column in database
+            value: string that specifies the datatype for the db column
+        """
+        string_c_d = ", ".join([c + " " + column_dtype[c] for c in column_dtype])
         conn = self.connect()
         with conn.cursor() as curs:
             
-            curs.execute(f"""CREATE TABLE "{table}" {column_dtype};""")
+            curs.execute(f"""CREATE TABLE "{table}" ({string_c_d});""")
         conn.commit()
         conn.close()
         return

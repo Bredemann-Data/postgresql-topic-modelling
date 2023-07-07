@@ -15,13 +15,13 @@ from from_sql import from_sql
 
 #%% Load as df
 
-books = from_sql(database  = "Book_reviews", username="your username", password="your password")
+books = from_sql()
 
 table = "book_data"
 
 condition = '"language" IS NULL' 
 
-df = books.query_to_df(table= table, columns= ["Title", "ID", "description", "categories"], condition = condition)
+df = books.query_to_df(table, condition, "Title", "ID", "description", "categories")
 df = df[df["description"].notna()]
 
 #%% Assign languages
